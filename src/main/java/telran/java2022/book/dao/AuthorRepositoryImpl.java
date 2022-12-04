@@ -1,13 +1,11 @@
 package telran.java2022.book.dao;
 
-import java.util.Optional;
+import org.springframework.stereotype.Repository;
+import telran.java2022.book.model.Author;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import org.springframework.stereotype.Repository;
-
-import telran.java2022.book.model.Author;
+import java.util.Optional;
 
 @Repository
 public class AuthorRepositoryImpl implements AuthorRepository {
@@ -29,7 +27,7 @@ public class AuthorRepositoryImpl implements AuthorRepository {
 
 	@Override
 	public void delete(Author author) {
-		// TODO Auto-generated method stub
+		em.remove(author);
 
 	}
 
