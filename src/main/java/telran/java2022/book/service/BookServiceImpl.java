@@ -81,13 +81,13 @@ public class BookServiceImpl implements BookService {
 	@Override
 //	@Transactional(readOnly = true)
 	public Iterable<BookDto> findBooksByPublisher(String publisherName) {
-		Publisher publisher = publisherRepository.findById(publisherName).orElseThrow(EntityNotFoundException::new);
-		return publisher.getBooks().stream()
-				.map(b -> modelMapper.map(b,  BookDto.class))
-				.collect(Collectors.toList());
-//		return bookRepository.findByPublisherPublisherName(publisherName)
+//		Publisher publisher = publisherRepository.findById(publisherName).orElseThrow(EntityNotFoundException::new);
+//		return publisher.getBooks().stream()
 //				.map(b -> modelMapper.map(b,  BookDto.class))
 //				.collect(Collectors.toList());
+		return bookRepository.findByPublisherPublisherName(publisherName)
+				.map(b -> modelMapper.map(b,  BookDto.class))
+				.collect(Collectors.toList());
 	}
 
 	@Override

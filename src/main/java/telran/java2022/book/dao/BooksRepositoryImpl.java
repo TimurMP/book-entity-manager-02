@@ -26,8 +26,9 @@ public class BooksRepositoryImpl implements BookRepository {
 
 	@Override
 	public Stream<Book> findByPublisherPublisherName(String publisherName) {
-		// TODO Auto-generated method stub
-		return null;
+		TypedQuery<Book> query = em.createQuery("select b from Publisher p join p.books b where p.publisherName=?1"   , Book.class);
+		query.setParameter(1, publisherName);
+		return query.getResultStream();
 	}
 
 	@Override
