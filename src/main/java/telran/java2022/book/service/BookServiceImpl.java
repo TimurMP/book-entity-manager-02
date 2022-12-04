@@ -1,13 +1,9 @@
 package telran.java2022.book.service;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import lombok.RequiredArgsConstructor;
 import telran.java2022.book.dao.AuthorRepository;
 import telran.java2022.book.dao.BookRepository;
 import telran.java2022.book.dao.PublisherRepository;
@@ -17,6 +13,9 @@ import telran.java2022.book.dto.exceptions.EntityNotFoundException;
 import telran.java2022.book.model.Author;
 import telran.java2022.book.model.Book;
 import telran.java2022.book.model.Publisher;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -68,15 +67,15 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-//	@Transactional(readOnly = true)
+	@Transactional(readOnly = true)
 	public Iterable<BookDto> findBooksByAuthor(String authorName) {
-		Author author = authorRepository.findById(authorName).orElseThrow(() -> new EntityNotFoundException());
-		return author.getBooks().stream()
-				.map(b -> modelMapper.map(b,  BookDto.class))
-				.collect(Collectors.toList());
-//		return bookRepository.findByAuthorsName(authorName)
+//		Author author = authorRepository.findById(authorName).orElseThrow(() -> new EntityNotFoundException());
+//		return author.getBooks().stream()
 //				.map(b -> modelMapper.map(b,  BookDto.class))
 //				.collect(Collectors.toList());
+		return bookRepository.findByAuthorsName(authorName)
+				.map(b -> modelMapper.map(b,  BookDto.class))
+				.collect(Collectors.toList());
 	}
 
 	@Override

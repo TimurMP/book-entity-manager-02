@@ -1,15 +1,14 @@
 package telran.java2022.book.dao;
 
-import java.util.Optional;
-import java.util.stream.Stream;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import telran.java2022.book.model.Book;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
-import telran.java2022.book.model.Book;
+import javax.persistence.TypedQuery;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @Repository
 public class BooksRepositoryImpl implements BookRepository {
@@ -18,9 +17,11 @@ public class BooksRepositoryImpl implements BookRepository {
 	EntityManager em;
 
 	@Override
+	@Transactional
 	public Stream<Book> findByAuthorsName(String authorName) {
-		// TODO Auto-generated method stub
-		return null;
+		TypedQuery<Book> query = em.createQuery("select b from Author a join a.books b where a.name=?1"   , Book.class);
+		query.setParameter(1, authorName);
+		return query.getResultStream();
 	}
 
 	@Override
